@@ -1,21 +1,22 @@
-import { Component } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { Task } from './task.model';
 
 @Component({
   selector: 'task-list',
   template: `
   <ul>
-    <li [class]="priorityColor(currentTask)" (click)="isDone(currentTask)" *ngFor="let currentTask of tasks">{{currentTask.description}} <button (click)="editTask(currentTask)">Edit</button></li>
+    <li (click)="isDone(currentTask)" *ngFor="let currentTask of childTaskList">{{currentTask.description}} <button (click)="editButtonHasBeenClicked(currentTask)">Edit</button></li>
   </ul>
   `
 })
 
 export class TaskListComponent {
-  tasks: Task[] = [
-    new Task('Finish weekend Angular homework for Epicodus', 3),
-    new Task('Think about JavaScript group projects', 2),
-    new Task('Add READMEs to old github repos', 2),
-  ];
+  @Input() childTaskList: Task[];
+  @Output() clickSender = new EventEmitter();
+
+  editButtonHasBeenClicked(taskToEdit: Task) {
+    this.clickSender.emit(taskToEdit);
+  }
 
   isDone(clickedTask: Task){
     if(clickedTask.done === true) {

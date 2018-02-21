@@ -7,10 +7,10 @@ import { Task } from './task.model'
   <div class="container">
     <h1>To Do List for {{month}}/{{day}}/{{year}}</h1>
     <h3>{{currentFocus}}</h3>
+
+    <task-list [childTaskList]="masterTaskList" (clickSender)="editTask($event)"></task-list>
+
     <hr>
-
-    <task-list></task-list>
-
     <div>
       <div *ngIf="selectedTask">
         <h3>{{selectedTask.description}}</h3>
@@ -36,7 +36,7 @@ export class AppComponent {
   month: number = this.currentTime.getMonth() + 1;
   day: number = this.currentTime.getDate();
   year: number = this.currentTime.getFullYear();
-  tasks: Task[] = [
+  masterTaskList: Task[] = [
     new Task('Finish weekend Angular homework for Epicodus', 3),
     new Task('Think about JavaScript group projects', 2),
     new Task('Add READMEs to old github repos', 2),
