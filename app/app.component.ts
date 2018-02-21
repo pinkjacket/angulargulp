@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Task } from './task.model'
 
 @Component({
   selector: 'app-root',
@@ -6,10 +7,10 @@ import { Component } from '@angular/core';
   <div class="container">
     <h1>To Do List for {{month}}/{{day}}/{{year}}</h1>
     <h3>{{currentFocus}}</h3>
-    <ul>
-      <li [class]="priorityColor(currentTask)" (click)="isDone(currentTask)" *ngFor="let currentTask of tasks">{{currentTask.description}} <button (click)="editTask(currentTask)">Edit</button></li>
-    </ul>
     <hr>
+
+    <task-list></task-list>
+
     <div>
       <div *ngIf="selectedTask">
         <h3>{{selectedTask.description}}</h3>
@@ -42,35 +43,13 @@ export class AppComponent {
   ];
   selectedTask: null;
 
+
   editTask(clickedTask){
     this.selectedTask = clickedTask;
-  }
-
-  isDone(clickedTask: Task){
-    if(clickedTask.done === true) {
-      alert("This task is done!");
-    } else{
-      alert("This task is not done. Better get moving!")
-    }
-  }
-
-  priorityColor(currentTask){
-    if(currentTask.priority === 3){
-      return "bg-danger";
-    } else if (currentTask.priority === 2){
-      return "bg-warning";
-    } else {
-      return "bg-info";
-    }
   }
 
   finishedEditing() {
     this.selectedTask = null;
   }
 
-}
-
-export class Task {
-  public done: boolean = false;
-  constructor(public description: string, public priority: number){}
 }
